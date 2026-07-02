@@ -27,8 +27,20 @@ function notifyTelegram(eventName, app){
   var date = new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Almaty' });
   var text = eventName + '\nДата: ' + date + '\nГруппа: ' + app.program + '\nИмя ребенка: ' + app.childName + '\nТелефон: ' + app.phone;
   var url = 'https://api.telegram.org/bot8582386908:AAGpTaeemvvr6Vh4OJmxeAvLOfCxfchRdnk/sendMessage?chat_id=484468538&text=' + encodeURIComponent(text);
-  var img = new Image();
-  img.src = url;
+  try {
+    fetch(url, { method: 'GET', mode: 'no-cors', keepalive: true });
+  } catch (error) {}
+  try {
+    var img = document.createElement('img');
+    img.alt = '';
+    img.width = 1;
+    img.height = 1;
+    img.style.position = 'absolute';
+    img.style.left = '-9999px';
+    img.src = url + '&cache=' + Date.now();
+    document.body.appendChild(img);
+    setTimeout(function(){ if (img.parentNode) img.parentNode.removeChild(img); }, 10000);
+  } catch (error) {}
 }
 </script>
 </body></html>
